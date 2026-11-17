@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo Assets -->
+    <record id="asset_demo_projector" model="office.asset">
+        <field name="name">Proyektor Epson EB-X500</field>
+        <field name="code">AST-DEMO-001</field>
+        <field name="category">electronics</field>
+        <field name="condition">good</field>
+        <field name="note">Proyektor ruang meeting utama</field>
+    </record>
+
+    <record id="asset_demo_laptop" model="office.asset">
+        <field name="name">Laptop Cadangan ThinkPad</field>
+        <field name="code">AST-DEMO-002</field>
+        <field name="category">electronics</field>
+        <field name="condition">good</field>
+        <field name="note">Laptop cadangan staf</field>
+    </record>
+
+    <record id="asset_demo_camera" model="office.asset">
+        <field name="name">Kamera DSLR Canon EOS 3000D</field>
+        <field name="code">AST-DEMO-003</field>
+        <field name="category">electronics</field>
+        <field name="condition">good</field>
+        <field name="note">Kamera dokumentasi event</field>
+    </record>
+
+    <!-- Demo Loans -->
+    <record id="loan_demo_1" model="office.asset.loan">
+        <field name="asset_id" ref="asset_demo_projector"/>
+        <field name="borrower_id" ref="base.user_admin"/>
+        <field name="purpose">Presentasi meeting mingguan</field>
+        <field name="loan_date" eval="datetime.now().strftime('%Y-%m-%d')"/>
+        <field name="due_date" eval="(datetime.now() + timedelta(days=7)).strftime('%Y-%m-%d')"/>
+        <field name="state">draft</field>
+    </record>
+
+    <record id="loan_demo_2" model="office.asset.loan">
+        <field name="asset_id" ref="asset_demo_laptop"/>
+        <field name="borrower_id" ref="base.user_admin"/>
+        <field name="purpose">Work from home laptop pengganti</field>
+        <field name="loan_date" eval="(datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d')"/>
+        <field name="due_date" eval="(datetime.now() + timedelta(days=5)).strftime('%Y-%m-%d')"/>
+        <field name="state">borrowed</field>
+    </record>
+
+    <record id="loan_demo_3" model="office.asset.loan">
+        <field name="asset_id" ref="asset_demo_camera"/>
+        <field name="borrower_id" ref="base.user_admin"/>
+        <field name="purpose">Dokumentasi onboarding batch 10</field>
+        <field name="loan_date" eval="(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d')"/>
+        <field name="due_date" eval="(datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d')"/>
+        <field name="return_date" eval="(datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d')"/>
+        <field name="state">returned</field>
+    </record>
+</odoo>
+
