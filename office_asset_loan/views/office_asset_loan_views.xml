@@ -1,0 +1,91 @@
+<odoo>
+    <record id="view_office_asset_loan_list" model="ir.ui.view">
+        <field name="name">office.asset.loan.list</field>
+        <field name="model">office.asset.loan</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="is_overdue"
+                  decoration-muted="state in ('returned', 'cancelled')">
+                <field name="name"/>
+                <field name="asset_id"/>
+                <field name="borrower_id"/>
+                <field name="loan_date"/>
+                <field name="due_date"/>
+                <field name="state"/>
+                <field name="is_overdue" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_office_asset_loan_form" model="ir.ui.view">
+        <field name="name">office.asset.loan.form</field>
+        <field name="model">office.asset.loan</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_borrow" type="object" string="Borrow"
+                            class="oe_highlight"
+                            invisible="state != 'draft'"/>
+                    <button name="action_return" type="object" string="Return"
+                            class="oe_highlight"
+                            invisible="state != 'borrowed'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state != 'draft'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,borrowed,returned"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="asset_id"
+                                   readonly="state != 'draft'"/>
+                            <field name="borrower_id"
+                                   readonly="state != 'draft'"/>
+                            <field name="purpose"
+                                   readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="loan_date"
+                                   readonly="state != 'draft'"/>
+                            <field name="due_date"
+                                   readonly="state != 'draft'"/>
+                            <field name="return_date"/>
+                            <field name="duration_days"/>
+                            <field name="is_overdue"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_office_asset_loan_search" model="ir.ui.view">
+        <field name="name">office.asset.loan.search</field>
+        <field name="model">office.asset.loan</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="asset_id"/>
+                <field name="borrower_id"/>
+                <filter name="borrowed" string="Borrowed"
+                        domain="[('state', '=', 'borrowed')]"/>
+                <filter name="overdue" string="Overdue"
+                        domain="[('state', '=', 'borrowed'), ('due_date', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <group>
+                    <filter name="group_borrower" string="Borrower"
+                            context="{'group_by': 'borrower_id'}"/>
+                    <filter name="group_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_office_asset_loan" model="ir.actions.act_window">
+        <field name="name">Loans</field>
+        <field name="res_model">office.asset.loan</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

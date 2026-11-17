@@ -1,0 +1,10 @@
+<odoo>
+    <menuitem id="menu_office_asset_loan_root" name="Office Asset Loan"
+              sequence="10"/>
+    <menuitem id="menu_office_asset_loan" name="Loans"
+              parent="menu_office_asset_loan_root"
+              action="action_office_asset_loan" sequence="10"/>
+    <menuitem id="menu_office_asset" name="Assets"
+              parent="menu_office_asset_loan_root"
+              action="action_office_asset" sequence="20"/>
+</odoo>
