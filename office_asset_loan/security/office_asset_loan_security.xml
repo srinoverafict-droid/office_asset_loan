@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rule_office_asset_loan_user" model="ir.rule">
+        <field name="name">Office Asset Loan: Own Loans Only for Users</field>
+        <field name="model_id" ref="model_office_asset_loan"/>
+        <field name="domain_force">['|', ('borrower_id', '=', user.id), ('borrower_id', '=', False)]</field>
+        <field name="groups" eval="[Command.link(ref('base.group_user'))]"/>
+    </record>
+
+    <record id="rule_office_asset_loan_manager" model="ir.rule">
+        <field name="name">Office Asset Loan: All Loans for Administrators</field>
+        <field name="model_id" ref="model_office_asset_loan"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[Command.link(ref('base.group_system'))]"/>
+    </record>
+</odoo>
+
